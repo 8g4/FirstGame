@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://d33ioveu7s06j"]
+
+[ext_resource type="Texture2D" uid="uid://kvqy8rgqopfx" path="res://coin/coin.png" id="1_67ua7"]
+[ext_resource type="Script" path="res://coin/coin.gd" id="1_vkhl4"]
+[ext_resource type="Texture2D" uid="uid://dpsx5w1biqdqf" path="res://coin/coin1.png" id="2_ysif0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_618pt"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d8qi0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_67ua7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ysif0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_67ua7")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Coin" type="Area2D"]
+script = ExtResource("1_vkhl4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_618pt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, 2.38419e-07)
+scale = Vector2(2.34375, 2.34375)
+sprite_frames = SubResource("SpriteFrames_d8qi0")
+animation = &"idle"
+autoplay = "idle"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

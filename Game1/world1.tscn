@@ -1,0 +1,133 @@
+[gd_scene load_steps=11 format=3 uid="uid://7bmn6d43md3l"]
+
+[ext_resource type="Texture2D" uid="uid://bno738hi4k0ox" path="res://background.png" id="1_j7i4j"]
+[ext_resource type="PackedScene" uid="uid://b84umij5v2ekp" path="res://player/player.tscn" id="2_o0ddd"]
+[ext_resource type="Texture2D" uid="uid://dqv6mbmfmdcj0" path="res://grass.png" id="3_762vn"]
+[ext_resource type="Script" path="res://Coin2.gd" id="4_s7j8m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7xcj"]
+size = Vector2(139.5, 552)
+
+[sub_resource type="GDScript" id="GDScript_fhpl3"]
+script/source = "extends Area2D
+
+
+
+
+func _on_body_entered(body):
+	get_tree().change_scene_to_file(\"res://world1.tscn\")
+	if Game.playerGold == 0:
+		Game.playerGold == 0
+	else:
+		Game.playerGold -=5
+		
+	Utils.saveGame()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vgmbt"]
+size = Vector2(1442.5, 127)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e72bb"]
+texture = ExtResource("3_762vn")
+0:0/next_alternative_id = 3
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:0/1 = 1
+0:0/1/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/1/physics_layer_0/angular_velocity = 0.0
+0:0/2 = 2
+0:0/2/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/2/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSet" id="TileSet_b0xjx"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_e72bb")
+
+[sub_resource type="GDScript" id="GDScript_u0enr"]
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	text = \"Gold: \" + str(Game.playerGold)
+"
+
+[node name="world1" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(1270, 0)
+
+[node name="BG" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(666, 328)
+scale = Vector2(0.621094, 0.621094)
+texture = ExtResource("1_j7i4j")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-70, 287)
+shape = SubResource("RectangleShape2D_w7xcj")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1397, 291)
+shape = SubResource("RectangleShape2D_w7xcj")
+
+[node name="Area2D" type="Area2D" parent="StaticBody2D"]
+script = SubResource("GDScript_fhpl3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D/Area2D"]
+position = Vector2(751, 712)
+shape = SubResource("RectangleShape2D_vgmbt")
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+offset_left = -390.0
+offset_top = 1062.0
+offset_right = 2157.0
+offset_bottom = 1312.0
+
+[node name="player" type="Node2D" parent="."]
+
+[node name="player" parent="player" instance=ExtResource("2_o0ddd")]
+position = Vector2(475, 139)
+
+[node name="TileMap" type="TileMap" parent="."]
+texture_filter = 1
+position = Vector2(415, 583)
+scale = Vector2(3.96, 3.96)
+tile_set = SubResource("TileSet_b0xjx")
+format = 2
+layer_0/tile_data = PackedInt32Array(-65536, 0, 0, -65531, 0, 0, -6, 0, 0, -5, 0, 0, -2, 0, 0, -1, 0, 0, -65529, 0, 0, -65528, 0, 0, -65527, 0, 0, -65526, 0, 0, -65525, 0, 0, -65524, 0, 0, -65523, 0, 0, -65522, 0, 0, -65521, 0, 0, -65520, 0, 0, -65519, 0, 0, -65518, 0, 0, -65517, 0, 0, -65516, 0, 0, -65515, 0, 0, -65514, 0, 0, -65513, 0, 0, -65512, 0, 0, -65511, 0, 0, -65510, 0, 0, -65509, 0, 0, -131044, 0, 0, -65508, 0, 0, -131043, 0, 0, -65507, 0, 0, -131042, 0, 0, -65506, 0, 0, -131041, 0, 0, -65505, 0, 0, -131040, 0, 0, -65504, 0, 0, -131039, 0, 0, -65503, 0, 0, -65532, 0, 0, -65533, 0, 0, -131065, 0, 0, -262139, 0, 0, -262142, 0, 0, -262145, 0, 0, -131063, 0, 0, -196598, 0, 0, -262132, 0, 0, -327667, 0, 0, -393206, 0, 0, -393209, 0, 0)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Gold" type="Label" parent="UI"]
+offset_left = 40.0
+offset_top = 18.0
+offset_right = 130.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 36
+text = "GOLD"
+script = SubResource("GDScript_u0enr")
+
+[node name="Coin2" type="Node2D" parent="."]
+position = Vector2(666, 328)
+scale = Vector2(0.621094, 0.621094)
+script = ExtResource("4_s7j8m")
+
+[node name="Timer" type="Timer" parent="Coin2"]
+wait_time = 0.5
+autostart = true
+
+[connection signal="body_entered" from="StaticBody2D/Area2D" to="StaticBody2D/Area2D" method="_on_body_entered"]
+[connection signal="timeout" from="Coin2/Timer" to="Coin2" method="_on_timer_timeout"]
